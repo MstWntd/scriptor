@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/ec2-user/dev/terraform_aws/ans-exmp/roles/common/templates'
+let g:netrw_dirhist_2='/home/ec2-user/dev/terraform_aws/ans-exmp/group_vars'
+let g:netrw_dirhist_3='/home/ec2-user/dev/slack'
+let g:netrw_dirhist_4='/home/waqask/dev/repos/ptc_ui/ui/src/main/webapp/assets/js'
+let g:netrw_dirhist_5='/home/waqask/dev/repos/ops_utils/x/i/bin'
+let g:netrw_dirhist_6='/home/waqask/dev/package_info'
+let g:netrw_dirhist_7='/home/waqask/dev/package_info/.crossbar'
