@@ -1,0 +1,80 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+silent tabonly
+cd ~/dev/repos/support_utils/task_exec
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+argglobal
+%argdel
+$argadd app.py
+edit app.py
+set splitbelow splitright
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe '1resize ' . ((&lines * 68 + 40) / 81)
+exe '2resize ' . ((&lines * 10 + 40) / 81)
+argglobal
+setlocal fdm=expr
+setlocal fde=pymode#folding#expr(v:lnum)
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+553
+normal! zo
+let s:l = 567 - ((262 * winheight(0) + 34) / 68)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+567
+normal! 0
+lcd ~/dev/repos/support_utils
+wincmd w
+argglobal
+enew
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+lcd ~/dev/repos/support_utils
+wincmd w
+exe '1resize ' . ((&lines * 68 + 40) / 81)
+exe '2resize ' . ((&lines * 10 + 40) / 81)
+tabnext 1
+badd +567 ~/dev/repos/support_utils/task_exec/app.py
+badd +1 ~/dev/repos/support_utils/task_exec/misc.py
+if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=aoOc
+set winminheight=1 winminwidth=1
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+nohlsearch
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :

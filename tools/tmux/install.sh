@@ -5,7 +5,7 @@ Author       : waqask
 Version      : 1.0
 
 Created      : 2017-09-15 07:19
-Last Modified: 2017-09-22 12:37:19 UTC
+Last Modified: 2020-07-11 20:00:41 EDT
 
 Description  : 
 MISC
@@ -30,8 +30,8 @@ colors=(\
     ['reset']='\E[0;00m'\
 )
 
-TMUX_VERSION="2.5"
-LIBEVENT_VERSION="2.1.8"
+tmux_version="2.5"
+libevent_version="2.1.8"
 
 function _log(){
     LVL="${1^^}"
@@ -74,6 +74,13 @@ function parse_args()
                 ;;
             --debug)
                 DEBUG="1"
+                ;;
+            -tv)
+                tmux_version="$1"
+                ;;
+            -lv)
+                libevent_version="$1"
+                ;;
        esac
     done
 }
@@ -84,14 +91,14 @@ function init(){
 }
 
 function download_sources(){
-    wget -O "tmux-${TMUX_VERSION}.tar.gz" "https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz"
-    wget "https://github.com/libevent/libevent/releases/download/release-${LIBEVENT_VERSION}-stable/libevent-${LIBEVENT_VERSION}-stable.tar.gz"
+    wget -O "tmux-${tmux_version}.tar.gz" "https://github.com/tmux/tmux/releases/download/${tmux_version}/tmux-${tmux_version}.tar.gz"
+    wget "https://github.com/libevent/libevent/releases/download/release-${libevent_version}-stable/libevent-${libevent_version}-stable.tar.gz"
     wget "http://invisible-island.net/datafiles/release/ncurses.tar.gz"
 }
 
 function install_libevent(){
-    tar -xvzf "libevent-${LIBEVENT_VERSION}-stable.tar.gz"
-    cd "libevent-${LIBEVENT_VERSION}-stable"
+    tar -xvzf "libevent-${libevent_version}-stable.tar.gz"
+    cd "libevent-${libevent_version}-stable"
     ./configure --prefix=$HOME/local --disable-shared
     make
     make install
@@ -108,8 +115,8 @@ function install_ncurses(){
 }
 
 function install_tmux(){
-    tar -xvzf "tmux-${TMUX_VERSION}.tar.gz"
-    cd "tmux-${TMUX_VERSION}"
+    tar -xvzf "tmux-${tmux_version}.tar.gz"
+    cd "tmux-${tmux_version}"
     ./configure CFLAGS="-I$HOME/local/include -I$HOME/local/include/ncurses" LDFLAGS="-L$HOME/local/lib -L$HOME/local/include/ncurses -L$HOME/local/include"
     CPPFLAGS="-I$HOME/local/include -I$HOME/local/include/ncurses" LDFLAGS="-static -L$HOME/local/include -L$HOME/local/include/ncurses -L$HOME/local/lib" make
     cp tmux $HOME/bin
